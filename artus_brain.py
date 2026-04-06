@@ -46,14 +46,22 @@ class ArTusBrain:
     # -----------------------------
     # REFLECTION
     # -----------------------------
-    def reflect(self):
+    def reflect(self, current_question=None):
         if len(self.memory) < 3:
             return None
 
-        recent = self.memory[-5:]
+        recent = self.memory[-6:]
 
-        # Remove duplicates + clean inputs
-        topics = list({m["content"] for m in recent if m["category"] == "user_input"})
+        topics = []
+        for m in recent:
+            if m["category"] == "user_input":
+                if m["content"] != current_question:
+                    topics.append(m["content"])
+
+        topics = list(set(topics))
+
+        if not topics:
+            return None
 
         return (
             "I'm noticing a pattern in your thoughts: "
@@ -77,13 +85,15 @@ class ArTusBrain:
         self.update_belief(question)
 
         # Reflection
-        reflection = self.reflect()
+        reflection = self.reflect(question)
 
         # Build response
-        response = f"I understand your question about '{question}'."
+        response = ""
 
         if reflection:
-            response += " " + reflection
+            response = reflection
+        else:
+            response = f"I'm thinking about '{question}'."
 
         # Log response
         self.log_memory(response, "response")
