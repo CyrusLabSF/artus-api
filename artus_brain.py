@@ -138,17 +138,3 @@ class ArTusBrain:
         self.log_memory(response, "response")
 
         return response
-
-    # -----------------------------
-    # BASIC REASONING (PHASE 3)
-    # -----------------------------
-    response_core = None
-
-    if "basketball" in q:
-        response_core = "Basketball is dynamic — it combines strategy, speed, and coordination."
-
-    elif "football" in q:
-        response_core = "Football is structured and tactical, with a strong emphasis on roles and execution."
-
-    elif "sports" in q:
-        response_core = "Sports are systems of competition, skill, and strategy — often reflecting human behavior and teamwork."
