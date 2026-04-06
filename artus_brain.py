@@ -54,7 +54,6 @@ class ArTusBrain:
         if len(self.memory) < 4:
             return None
 
-        # cooldown: reflect every ~3 memory events
         if len(self.memory) - self.last_reflection_time < 3:
             return None
 
@@ -71,15 +70,15 @@ class ArTusBrain:
         if not topics:
             return None
 
-    # update cooldown marker
-    self.last_reflection_time = len(self.memory)
+        # ✅ FIXED INDENTATION
+        self.last_reflection_time = len(self.memory)
 
-    return (
-        "I'm noticing a pattern in your thoughts: "
-        + ", ".join(topics)
-        + ". What direction are you exploring?"
-    )
-
+        return (
+            "I'm noticing a pattern in your thoughts: "
+            + ", ".join(topics)
+            + ". What direction are you exploring?"
+        )
+    
     # -----------------------------
     # RESPONSE GENERATION (REAL)
     # -----------------------------
