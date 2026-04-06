@@ -75,18 +75,22 @@ class ArTusBrain:
     def process(self, question):
 
         q = question.lower()
-    
-        # Identity protection
+
+        # -----------------------------
+        # IDENTITY PROTECTION
+        # -----------------------------
         if "you are not artus" in q:
             return "That conflicts with my identity."
 
-        # Log input
+        # -----------------------------
+        # MEMORY + BELIEF
+        # -----------------------------
         self.log_memory(question, "user_input")
-
-        # Update belief
         self.update_belief(question)
 
-        # Reflection
+        # -----------------------------
+        # REFLECTION
+        # -----------------------------
         reflection = self.reflect(question)
 
         # -----------------------------
@@ -97,21 +101,54 @@ class ArTusBrain:
         ])
 
         # -----------------------------
+        # REASONING (PHASE 3)
+        # -----------------------------
+        response_core = None
+
+        if "basketball" in q:
+            response_core = "Basketball is dynamic — it combines strategy, speed, and coordination."
+
+        elif "football" in q:
+            response_core = "Football is structured and tactical, with a strong emphasis on roles and execution."
+
+        elif "sports" in q:
+            response_core = "Sports are systems of competition, skill, and strategy — often reflecting human behavior and teamwork."
+
+        # -----------------------------
         # RESPONSE LOGIC
         # -----------------------------
         if is_question:
-            response = f"I’m considering your question about '{question}'."
+            if response_core:
+                response = response_core
+            else:
+                response = "I’m considering your question."
 
             if reflection:
                 response += " " + reflection
 
-        elif reflection:
-            response = reflection
-
         else:
-            response = f"I'm thinking about '{question}'."
+            if reflection:
+                response = reflection
+            else:
+                response = f"I'm thinking about '{question}'."
 
-        # Log response
+        # -----------------------------
+        # LOG RESPONSE
+        # -----------------------------
         self.log_memory(response, "response")
 
         return response
+
+    # -----------------------------
+    # BASIC REASONING (PHASE 3)
+    # -----------------------------
+    response_core = None
+
+    if "basketball" in q:
+        response_core = "Basketball is dynamic — it combines strategy, speed, and coordination."
+
+    elif "football" in q:
+        response_core = "Football is structured and tactical, with a strong emphasis on roles and execution."
+
+    elif "sports" in q:
+        response_core = "Sports are systems of competition, skill, and strategy — often reflecting human behavior and teamwork."
