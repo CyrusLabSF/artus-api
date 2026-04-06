@@ -50,10 +50,16 @@ class ArTusBrain:
         if len(self.memory) < 3:
             return None
 
-        recent = self.memory[-3:]
-        topics = [m["content"] for m in recent]
+        recent = self.memory[-5:]
 
-        return f"I am noticing a pattern around: {', '.join(topics)}"
+        # Remove duplicates + clean inputs
+        topics = list({m["content"] for m in recent if m["category"] == "user_input"})
+
+        return (
+            "I'm noticing a pattern in your thoughts: "
+            + ", ".join(topics)
+            + ". What direction are you exploring?"
+        )
 
     # -----------------------------
     # RESPONSE GENERATION (REAL)
