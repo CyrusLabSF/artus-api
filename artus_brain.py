@@ -74,8 +74,10 @@ class ArTusBrain:
     # -----------------------------
     def process(self, question):
 
+        q = question.lower()
+    
         # Identity protection
-        if "you are not artus" in question.lower():
+        if "you are not artus" in q:
             return "That conflicts with my identity."
 
         # Log input
@@ -87,11 +89,25 @@ class ArTusBrain:
         # Reflection
         reflection = self.reflect(question)
 
-        # Build response
-        response = ""
+        # -----------------------------
+        # INTENT DETECTION
+        # -----------------------------
+        is_question = any(q.startswith(w) for w in [
+            "what", "why", "how", "do", "are", "can"
+        ])
 
-        if reflection:
+        # -----------------------------
+        # RESPONSE LOGIC
+        # -----------------------------
+        if is_question:
+            response = f"I’m considering your question about '{question}'."
+
+            if reflection:
+                response += " " + reflection
+
+        elif reflection:
             response = reflection
+
         else:
             response = f"I'm thinking about '{question}'."
 
